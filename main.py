@@ -36,6 +36,7 @@ total_profit = 0.00
 
 
 def print_report():
+    """Print resources and total profit."""
     print(f"""
     Water: {resources['water']}ml
     Milk: {resources['milk']}ml
@@ -45,11 +46,13 @@ def print_report():
 
 
 def add_profit(money):
+    """Update total profit."""
     global total_profit
     total_profit += money
 
 
 def resources_are_sufficient(drink_order):
+    """Take in drink_order as arg and return boolean if there are enough resources."""
     menu_drink = MENU[drink_order]
     are_sufficient = True
 
@@ -62,10 +65,8 @@ def resources_are_sufficient(drink_order):
     return are_sufficient
 
 
-# TODO: 5. Process coins.
-
-
 def process_coins():
+    """Prompt user to insert quarter, dime, nickle and penny quantities and return total."""
     print("Please insert coins")
     quarters = int(input("quarters: ")) * 25
     dimes = int(input("dimes: ")) * 10
@@ -81,6 +82,7 @@ def process_coins():
 
 
 def is_transaction_successful(drink_order, money):
+    """Check if received money is enough and return change if there is any."""
     menu_order_cost = MENU[drink_order]["cost"]
     if money < menu_order_cost:
         print(f"Sorry that's not enough money. ${money} refunded.")
@@ -93,6 +95,7 @@ def is_transaction_successful(drink_order, money):
 
 
 def make_coffee(drink_order):
+    """Deduct ingredient quantities from resources and present drink to user."""
     menu_order_ingredients = MENU[drink_order]["ingredients"]
 
     for ingredient in menu_order_ingredients:
@@ -114,7 +117,7 @@ while orders_pending:
 
         coins = process_coins()
 
-        if int(is_transaction_successful(order, coins)) >= 0 and resources_are_sufficient(order):
+        if resources_are_sufficient(order) and int(is_transaction_successful(order, coins)) >= 0:
             make_coffee(order)
 
 
